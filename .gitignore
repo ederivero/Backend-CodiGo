@@ -1,2 +1,3 @@
 # Asi se comenta en el archivo gitignore
 entorno_prueba
+.env
