@@ -3,3 +3,4 @@ entorno_prueba
 .env
 entorno_flask_jwt
 entorno_django
+__pycache__/
