@@ -1,6 +1,4 @@
-# Asi se comenta en el archivo gitignore
-entorno_prueba
-.env
-entorno_flask_jwt
-entorno_django
+entorno_facturacion/
 __pycache__/
+.env
+*.sqlite3

@@ -1,11 +1,9 @@
 from django.urls import path
-from .views import CategoriaApiView, UnaCategoriaApiView, RegistroUsuarioApiView, PerfilUsuarioApiView
-from rest_framework_simplejwt.views import TokenObtainPairView
+from .views import GenerarBoleta, GenerarPago, webhooks_mp
 
 urlpatterns = [
-    path('categoria', CategoriaApiView.as_view()),
-    path('categoria/<int:id>', UnaCategoriaApiView.as_view()),
-    path('registro', RegistroUsuarioApiView.as_view()),
-    path('login', TokenObtainPairView.as_view()),
-    path('perfil', PerfilUsuarioApiView.as_view())
+    path('generar-boleta', GenerarBoleta.as_view()),
+    path('consultar-boleta/<str:serie>/<int:numero>', GenerarBoleta.as_view()),
+    path('generar-pago', GenerarPago.as_view()),
+    path('webhooks-mp', webhooks_mp)
 ]

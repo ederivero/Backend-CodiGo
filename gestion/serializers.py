@@ -1,20 +1,11 @@
 from rest_framework import serializers
-from .models import CategoriaModel, UsuarioModel
 
 
-class CategoriaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CategoriaModel
-        fields = '__all__'
+class ItemsSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=True)
+    cantidad = serializers.IntegerField(required=True, min_value= 0)
 
-
-class RegistroUsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UsuarioModel
-        fields = '__all__'
-
-class MostrarUsuarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UsuarioModel
-        exclude = ['password','is_staff', 'user_permissions', 'groups', 'last_login', 'is_superuser']
-
+class GenerarBoletaSerializer(serializers.Serializer):
+    documento_usuario = serializers.CharField(max_length = 8, min_length=8, allow_null=False, required=True)
+    nombre_usuario = serializers.CharField(required=True)
+    items = ItemsSerializer(many=True)
