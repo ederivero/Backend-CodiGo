@@ -1,115 +1,26 @@
-import mongoose from "mongoose";
 import express from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { Server } from "socket.io";
+import { createServer } from "http";
 
 const servidor = express();
-servidor.use(express.json());
+const httpServidor = createServer(servidor);
+const io = new Server(httpServidor, { cors: { origin: "*" } });
+const historial = [];
 
-const animalSchema = new mongoose.Schema({
-  nombre: {
-    type: mongoose.Schema.Types.String,
-    required: true,
-  },
-  fechaNacimiento: {
-    type: mongoose.Schema.Types.Date,
-    alias: "fecha_nacimiento",
-  },
-  sexo: {
-    type: mongoose.Schema.Types.String,
-    enum: ["MACHO", "HEMBRA"],
-  },
+io.on("connection", (cliente) => {
+  console.log(cliente.id);
+  cliente.emit("historial", historial);
+
+  cliente.on("message", (argumentos) => {
+    console.log(argumentos);
+    historial.push({ ...argumentos, hora: new Date() });
+    io.emit("historial", historial);
+  });
+
+  cliente.emit("saludo", { message: "Buenas!!!" });
+  //   io.emit("saludo", { message: "Buenas!!!" });
 });
 
-const AnimalModel = mongoose.model("animales", animalSchema);
-
-servidor
-  .route("/animales")
-  .post(async (req, res) => {
-    const data = req.body;
-    try {
-      const nuevoAnimal = await AnimalModel.create(data);
-
-      return res.status(201).json({
-        message: "Animal creado exitosamente",
-        content: nuevoAnimal.toJSON(),
-      });
-    } catch (error) {
-      return res.status(400).json({
-        message: "Error al crear el animal",
-        content: error.message,
-      });
-    }
-  })
-  .get(async (req, res) => {
-    const animales = await AnimalModel.find();
-
-    return res.status(200).json({
-      content: animales,
-    });
-  });
-
-servidor
-  .route("/animal/:id")
-  .get(async (req, res) => {
-    const { id } = req.params;
-    try {
-      const animal = await AnimalModel.findById(id);
-
-      if (!animal) {
-        return res.status(404).json({
-          message: "Animal no existe",
-        });
-      }
-
-      return res.status(200).json({
-        content: animal.toJSON(),
-      });
-    } catch (error) {
-      return res.status(400).json({
-        message: "Error al buscar el animal",
-        content: error.message,
-      });
-    }
-  })
-  .put(async (req, res) => {
-    const { id } = req.params;
-    const animal = await AnimalModel.findById(id);
-
-    if (!animal) {
-      return res.status(404).json({
-        message: "Animal no existe",
-      });
-    }
-
-    const animalActualizado = await AnimalModel.findByIdAndUpdate(
-      id,
-      req.body,
-      { new: true }
-    );
-
-    return res.json({
-      content: animalActualizado,
-    });
-  })
-  .delete(async (req, res) => {
-    const { id } = req.params;
-    const animal = await AnimalModel.findById(id);
-
-    if (!animal) {
-      return res.status(404).json({
-        message: "Animal no existe",
-      });
-    }
-
-    await AnimalModel.deleteOne({ _id: id });
-
-    return res.status(204).send();
-  });
-
-servidor.listen(process.env.PORT, async () => {
+httpServidor.listen(3000, () => {
   console.log("Servidor corriendo exitosamente");
-  await mongoose.connect(process.env.MONGODB_URL);
-  console.log("Base de datos conectada exitosamente");
 });
