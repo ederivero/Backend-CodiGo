@@ -108,13 +108,8 @@ servidor
     return res.status(204).send();
   });
 
-const conectarMongo = async () => {
+servidor.listen(3000, async () => {
+  console.log("Servidor corriendo exitosamente");
   await mongoose.connect(process.env.MONGODB_URL);
   console.log("Base de datos conectada exitosamente");
-};
-
-servidor.listen(3000, () => {
-  console.log("Servidor corriendo exitosamente");
 });
-
-conectarMongo();
