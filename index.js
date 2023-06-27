@@ -108,7 +108,7 @@ servidor
     return res.status(204).send();
   });
 
-servidor.listen(3000, async () => {
+servidor.listen(process.env.PORT, async () => {
   console.log("Servidor corriendo exitosamente");
   await mongoose.connect(process.env.MONGODB_URL);
   console.log("Base de datos conectada exitosamente");
