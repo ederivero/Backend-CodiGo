@@ -87,4 +87,4 @@ Cada semana esta en una rama independiente, en la cual se ira detallando a conti
 - Definición de web sockets
 - Introducción a Docker
 - Instalación y creacion de un Contenedor
-- Semana 10 - Sockets (branch): <a href="https://github.com/ederivero/Backend-CodiGo/tree/semana">Enlace <img src="./assets/branch.png" width="20"></a>
+- Semana 10 - Sockets (branch): <a href="https://github.com/ederivero/Backend-CodiGo/tree/semana10-sockets">Enlace <img src="./assets/branch.png" width="20"></a>
