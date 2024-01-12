@@ -8,7 +8,7 @@
     </a>
 </p>
 
-## Bienvenido al repositorio del Módulo de Backned por las siguientes 10 semanas
+## Bienvenido al repositorio del Módulo de Backend por las siguientes 10 semanas
 
 Toda la información de los videos la podrás encontrar aquí
 
